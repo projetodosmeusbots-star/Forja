@@ -1,0 +1,219 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Forja</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: hero assimétrico (texto à esquerda, logo à direita), depois passos, demonstração interativa e lista de recursos. */
+:root {
+  --bg: #12133a;
+  --surface: #1b1d52;
+  --panel: #2b2d31;
+  --panel-head: #232428;
+  --line: #3b3e94;
+  --fg: #f2f3ff;
+  --muted: #b4b8e8;
+  --accent: #ff9f45;
+  --accent-soft: #ffe082;
+  --brand: #6b73ff;
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  padding-block: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1060px; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.05; }
+p { margin: 0; }
+.eyebrow { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-soft); font-weight: 700; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 32px; align-items: center; padding-block: 56px 48px; }
+.hero > * { min-width: 0; }
+.badge { display: inline-block; background: linear-gradient(180deg, var(--accent-soft), var(--accent)); color: #1e1f5c; font-weight: 800; letter-spacing: 0.08em; font-size: 14px; padding: 6px 16px; border-radius: 999px; margin-bottom: 20px; }
+.hero h1 { font-size: clamp(64px, 14vw, 132px); font-weight: 800; letter-spacing: 0.02em; }
+.hero .lead { font-size: clamp(20px, 3.4vw, 26px); color: var(--muted); margin-top: 14px; max-width: 30ch; }
+.cmd { display: inline-block; margin-top: 28px; font-family: var(--font-mono); font-size: 18px; color: var(--accent-soft); background: #0c0d2b; border: 1px solid var(--line); border-radius: 12px; padding: 14px 20px; max-width: 100%; overflow-x: auto; white-space: nowrap; }
+.logo { width: 100%; max-width: 380px; justify-self: center; height: auto; }
+
+/* sections */
+section { padding-block: 48px; border-top: 1px solid var(--line); }
+section h2 { font-size: clamp(32px, 6vw, 48px); font-weight: 800; margin-top: 10px; max-width: 18ch; }
+.sub { color: var(--muted); margin-top: 14px; max-width: 56ch; }
+
+/* steps */
+.steps { list-style: none; padding: 0; margin: 32px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; counter-reset: s; }
+.steps li { counter-increment: s; background: var(--surface); border-radius: 16px; padding: 24px; min-width: 0; }
+.steps li::before { content: counter(s); display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #1e1f5c; font-family: var(--font-display); font-weight: 800; margin-bottom: 14px; }
+.steps h3 { font-size: 22px; margin-bottom: 8px; }
+.steps p { color: var(--muted); font-size: 16px; }
+.steps code { font-family: var(--font-mono); color: var(--accent-soft); font-size: 15px; }
+
+/* demo */
+.demo { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 32px; margin-top: 8px; align-items: start; }
+.demo > * { min-width: 0; }
+.tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.tab { font: inherit; font-weight: 700; color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 10px 20px; cursor: pointer; }
+.tab[aria-pressed="true"] { background: var(--accent); color: #1e1f5c; border-color: var(--accent); }
+.tab:focus-visible { outline: 3px solid var(--accent-soft); outline-offset: 2px; }
+.note { font-size: 14px; color: var(--muted); margin-top: 16px; }
+.server { background: var(--panel); border-radius: 20px; overflow: hidden; font-size: 18px; }
+.server-head { background: var(--panel-head); padding: 18px 24px; font-family: var(--font-display); font-weight: 800; font-size: 22px; }
+.server-body { padding: 8px 24px 20px; }
+.cat { font-size: 13px; letter-spacing: 0.08em; font-weight: 700; color: #949ba4; margin-top: 18px; text-transform: uppercase; }
+.ch { color: #dbdee1; padding: 2px 0 2px 10px; overflow-wrap: anywhere; }
+.ch i { font-style: normal; color: #80848e; margin-right: 6px; }
+.roles { border-top: 1px solid #3f4147; margin-top: 20px; padding-top: 14px; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.role { display: flex; align-items: center; gap: 8px; color: #dbdee1; font-size: 17px; }
+.dot { width: 14px; height: 14px; border-radius: 50%; flex: none; }
+
+/* features */
+.feat { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 40px; margin-top: 32px; }
+.feat > div { min-width: 0; border-left: 3px solid var(--accent); padding-left: 18px; }
+.feat h3 { font-size: 21px; margin-bottom: 6px; }
+.feat p { color: var(--muted); font-size: 16px; }
+
+footer { border-top: 1px solid var(--line); padding-block: 48px 64px; text-align: left; }
+footer h2 { font-size: clamp(30px, 5.5vw, 44px); font-weight: 800; max-width: 20ch; }
+footer p { color: var(--muted); margin-top: 12px; max-width: 52ch; }
+
+@media (max-width: 860px) {
+  .hero, .demo { grid-template-columns: 1fr; }
+  .logo { max-width: 260px; justify-self: start; grid-row: 1; }
+  .steps, .feat { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .spark { animation: pulse 2.8s ease-in-out infinite; transform-origin: 270px 147px; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div>
+      <span class="badge">EM BREVE</span>
+      <h1>Forja</h1>
+      <p class="lead">Seu servidor, forjado em segundos.</p>
+      <div class="cmd">/forja tema: estudos</div>
+    </div>
+    <svg class="logo" viewBox="80 60 360 350" role="img" aria-label="Bigorna com uma faísca dourada">
+      <defs>
+        <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#b9bedd"/></linearGradient>
+        <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ffd54a" stop-opacity="0.5"/><stop offset="1" stop-color="#ffd54a" stop-opacity="0"/></radialGradient>
+        <linearGradient id="spark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe082"/><stop offset="1" stop-color="#ff8a3d"/></linearGradient>
+      </defs>
+      <circle cx="270" cy="150" r="130" fill="url(#glow)"/>
+      <path d="M104 236 L356 236 Q392 236 404 212 L420 212 L420 268 Q384 278 344 278 L320 278 Q324 316 344 334 L380 334 L380 364 L132 364 L132 334 L168 334 Q188 316 192 278 L176 278 Q124 274 104 236 Z" fill="url(#metal)"/>
+      <rect x="150" y="364" width="212" height="28" rx="8" fill="#8f95c9"/>
+      <path class="spark" d="M270 92 L283 134 L325 147 L283 160 L270 202 L257 160 L215 147 L257 134 Z" fill="url(#spark)"/>
+      <circle cx="345" cy="112" r="7" fill="#ffd54a"/><circle cx="200" cy="108" r="5" fill="#ffb74d"/><circle cx="352" cy="180" r="4" fill="#ffe082"/>
+    </svg>
+  </header>
+
+  <section>
+    <div class="eyebrow">Como funciona</div>
+    <h2>Três passos, sem montar nada na mão</h2>
+    <ol class="steps">
+      <li><h3>Diga o tema</h3><p>Use o comando <code>/forja</code> e escreva o tipo de servidor que você quer: estudos, jogos, loja, comunidade.</p></li>
+      <li><h3>A Forja monta</h3><p>O bot cria as categorias, os canais e os cargos que fazem sentido para aquele tema.</p></li>
+      <li><h3>Seu servidor pronto</h3><p>Tudo chega organizado, com cores e permissões definidas. Só falta convidar o pessoal.</p></li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="eyebrow">Veja o resultado</div>
+    <div class="demo">
+      <div>
+        <h2>Cada tema, uma estrutura diferente</h2>
+        <p class="sub">Escolha um exemplo e veja como o servidor ficaria depois que a Forja termina.</p>
+        <div class="tabs" id="tabs"></div>
+        <p class="note">Exemplos ilustrativos. A estrutura final varia conforme o tema pedido.</p>
+      </div>
+      <div class="server" aria-live="polite">
+        <div class="server-head" id="server-name"></div>
+        <div class="server-body" id="server-body"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">O que ela cria</div>
+    <div class="feat">
+      <div><h3>Categorias e canais</h3><p>Texto e voz organizados por assunto, sem canal sobrando e sem faltar o essencial.</p></div>
+      <div><h3>Cargos do tema</h3><p>Admin, moderação e membros com nomes que combinam com a comunidade.</p></div>
+      <div><h3>Cores e permissões</h3><p>Cada cargo já vem com cor própria e permissões definidas para o que ele faz.</p></div>
+      <div><h3>Servidor do zero</h3><p>Você descreve a ideia e a Forja entrega a estrutura inteira, sem configurar canal por canal.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <h2>Lançamento em breve</h2>
+    <p>A Forja chega ao servidor em breve. Acompanhe as novidades por lá para saber o dia em que ela estiver disponível.</p>
+  </footer>
+</div>
+
+<script>
+var THEMES = {
+  "Estudos": { name: "Servidor: Estudos", cats: [
+    ["Boas-vindas", ["regras", "avisos"]],
+    ["Estudos", ["matemática", "programação", "dúvidas"]],
+    ["Voz", ["🔊 sala de estudo"]]],
+    roles: [["Admin", "#ed4245"], ["Monitor", "#57f287"], ["Aluno", "#5865f2"]] },
+  "Jogos": { name: "Servidor: Jogos", cats: [
+    ["Boas-vindas", ["regras", "anúncios"]],
+    ["Geral", ["bate-papo", "clipes", "memes"]],
+    ["Voz", ["🔊 sala 1", "🔊 sala 2", "🔊 equipe"]]],
+    roles: [["Admin", "#ed4245"], ["Moderador", "#faa61a"], ["Jogador", "#5865f2"]] },
+  "Loja": { name: "Servidor: Loja", cats: [
+    ["Início", ["regras", "novidades"]],
+    ["Vendas", ["catálogo", "pedidos", "suporte"]],
+    ["Clientes", ["avaliações", "sugestões"]]],
+    roles: [["Dono", "#ed4245"], ["Atendente", "#57f287"], ["Cliente", "#5865f2"]] }
+};
+var tabs = document.getElementById("tabs");
+var nameEl = document.getElementById("server-name");
+var bodyEl = document.getElementById("server-body");
+
+function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+
+function show(key) {
+  var t = THEMES[key];
+  nameEl.textContent = t.name;
+  var h = "";
+  t.cats.forEach(function (c) {
+    h += '<div class="cat">' + esc(c[0]) + "</div>";
+    c[1].forEach(function (ch) {
+      var voice = ch.indexOf("🔊") === 0;
+      h += '<div class="ch"><i>' + (voice ? "🔊" : "#") + "</i>" + esc(voice ? ch.slice(2).trim() : ch) + "</div>";
+    });
+  });
+  h += '<div class="cat" style="margin-top:22px">Cargos criados</div><div class="roles">';
+  t.roles.forEach(function (r) {
+    h += '<span class="role"><span class="dot" style="background:' + r[1] + '"></span>' + esc(r[0]) + "</span>";
+  });
+  h += "</div>";
+  bodyEl.innerHTML = h;
+  Array.prototype.forEach.call(tabs.children, function (b) {
+    b.setAttribute("aria-pressed", b.textContent === key ? "true" : "false");
+  });
+}
+
+Object.keys(THEMES).forEach(function (k) {
+  var b = document.createElement("button");
+  b.className = "tab"; b.type = "button"; b.textContent = k;
+  b.addEventListener("click", function () { show(k); });
+  tabs.appendChild(b);
+});
+show("Estudos");
+</script>
+
+</body></html>
